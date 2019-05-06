@@ -117,7 +117,7 @@ export default class WanAndroid extends React.PureComponent {
         return response.json();
       }
     }).then((response) => {
-      console.log(response);
+      // console.log(response);
       if (response.errorCode === 0) {
         const data = pageNo === 1
           ? response.data.datas

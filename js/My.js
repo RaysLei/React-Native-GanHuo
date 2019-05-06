@@ -50,7 +50,12 @@ export default class My extends React.Component {
   };
 
   onWebView = (url) => {
-    showToast(`${url}`);
+    this.props.navigation.navigate(
+      "Details",
+      {
+        uri: url,
+        title: ""
+      });
   };
 
   onMyCollect = () => {
@@ -65,9 +70,9 @@ export default class My extends React.Component {
         </View>
         <MyItemView title={"我的收藏"} onClick={this.onMyCollect}/>
         <MyItemView title={"点个Star"} onClick={this.onWebView}
-                    url={"https://github.com/fujianlian/GankRN"}/>
+                    url={"https://github.com/RaysLei/RN-Demo"}/>
         <MyItemView title={"提Issue/PR"} onClick={this.onWebView}
-                    url={"https://github.com/fujianlian/GankRN/issues"}/>
+                    url={"https://github.com/RaysLei/RN-Demo/issues"}/>
         <MyItemView title={"关于"} onClick={this.onAbout}/>
       </View>
     );
