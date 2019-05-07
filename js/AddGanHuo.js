@@ -2,6 +2,7 @@ import React from "react";
 import { View, TextInput, StyleSheet, Picker, TouchableOpacity } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import { showToast, isBlank, isHttpUrl } from "./configs/Constants";
+import { post } from "./configs/HttpUtils";
 
 export default class AddGanHuo extends React.Component {
 
@@ -51,31 +52,17 @@ export default class AddGanHuo extends React.Component {
       showToast("请输入昵称");
       return;
     }
-    let formData = new FormData();
-    formData.append("url", this.state.url);
-    formData.append("desc", this.state.desc);
-    formData.append("who", this.state.who);
-    formData.append("type", this.state.type);
-    formData.append("debug", true);
-    fetch("http://gank.io/api/add2gank", {
-      method: "POST",
-      body: formData
-    }).then(response => {
-      if (response.ok) {
-        return response.json();
-      } else {
-        showToast("服务器繁忙，请稍后再试！");
-      }
-    }).then(response => {
-      if (response.error) {
-        showToast(response.error);
-      } else {
+    let params = new Map();
+    params.set("url", this.state.url);
+    params.set("desc", this.state.desc);
+    params.set("who", this.state.who);
+    params.set("type", this.state.type);
+    params.set("debug", true);
+    post("http://gank.io/api/add2gank", params)
+      .then(response => {
         showToast("发布成功");
         this.props.navigation.goBack();
-      }
-    }).catch((error) => {
-      showToast("当前网络不可用，请检查网络设置！");
-    });
+      });
   };
 
   render() {
@@ -88,10 +75,8 @@ export default class AddGanHuo extends React.Component {
           padding={0}
           clearButtonMode={"while-editing"}
           autoFocus={true}
-          multiline={true}
-          numberOfLines={1}
           selectionColor={"#CE3D3A"}
-          value={this.state.url}
+          // value={this.state.url}
         />
         <TextInput
           style={styles.textInput}
@@ -100,7 +85,7 @@ export default class AddGanHuo extends React.Component {
           padding={0}
           clearButtonMode={"while-editing"}
           selectionColor={"#CE3D3A"}
-          value={this.state.desc}
+          // value={this.state.desc}
         />
         <TextInput
           style={styles.textInput}
@@ -109,10 +94,10 @@ export default class AddGanHuo extends React.Component {
           padding={0}
           clearButtonMode={"while-editing"}
           selectionColor={"#CE3D3A"}
-          value={this.state.who}
+          // value={this.state.who}
         />
         <Picker
-          selectedValue={this.state.type}
+          selectedValue={"Android"}
           style={{ marginTop: 15 }}
           onValueChange={(itemValue) => this.setState({ type: itemValue })}>
           <Picker.Item label="APP" value="App"/>

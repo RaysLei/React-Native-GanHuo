@@ -1,5 +1,6 @@
 import React from "react";
 import { FlatList, Image, StyleSheet, TouchableHighlight } from "react-native";
+import { get } from "./configs/HttpUtils";
 
 const screenWidth = require("Dimensions").get("window").width;
 
@@ -36,9 +37,9 @@ export default class GanHuo extends React.PureComponent {
     super(props);
     this.state = {
       data: [],
-      isRefreshing: false,
-      loadState: 0 // 是否加载数据的状态，0：没有更多数据可加载，1：可加载更多，2：正在加载中
+      isRefreshing: false
     };
+    this.loadState = 0; // 是否加载数据的状态，0：没有更多数据可加载，1：可加载更多，2：正在加载中
   }
 
   componentDidMount() {
@@ -50,38 +51,31 @@ export default class GanHuo extends React.PureComponent {
     this.setState({
       isRefreshing
     });
-    fetch(`http://gank.io/api/data/福利/${pageSize}/${pageNo}`, {
-      method: "GET",
-      headers: {
-        "Accept": "application/json",
-        "Content-Type": "application/json"
-      }
-    }).then((response) => {
-      if (response.ok) {
-        return response.json();
-      }
-    }).then((response) => {
-      // console.log(response);
-      if (!response.error) {
+    get(`http://gank.io/api/data/福利/${pageSize}/${pageNo}`)
+      .then(response => {
+        // console.log(response);
         const data = pageNo === 1
-          ? [...response.results]
-          : [...this.state.data, ...response.results];
+          ? [...response.data]
+          : [...this.state.data, ...response.data];
         console.log(data.length);
-        const loadState = response.results.length === pageSize ? 1 : 0;
+        this.loadState = response.data.length === pageSize ? 1 : 0;
         this.setState({
           data,
-          loadState,
           isRefreshing: false
         });
-      }
-    });
+      }, reason => {
+        this.loadState = isRefreshing ? 0 : 1;
+        this.setState({
+          isRefreshing: false
+        });
+      });
   };
 
   loadMoreData = () => {
-    if (this.state.loadState !== 1) {
+    if (this.loadState !== 1) {
       return;
     }
-    this.setState({ loadState: 2 });
+    this.loadState = 2;
     this.loadData(pageNo + 1, false);
   };
 

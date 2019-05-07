@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import { showToast } from "./configs/Constants";
+import AsyncStorage from "@react-native-community/async-storage";
 
 class MyItemView extends React.Component {
 
@@ -45,6 +46,40 @@ class MyItemView extends React.Component {
 
 export default class My extends React.Component {
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      isLogin: false,
+      userName: ""
+    };
+  }
+
+  componentWillMount() {
+    this.willFocusSubscription = this.props.navigation.addListener("willFocus", () => {
+      AsyncStorage.getItem("userInfo")
+        .then(value => {
+          console.log(value);
+          if (value) {
+            const userInfo = JSON.parse(value);
+            console.log(userInfo);
+            this.setState({
+              isLogin: userInfo["isLogin"],
+              userName: userInfo["isLogin"] ? userInfo["userName"] : ""
+            });
+          } else {
+            this.setState({
+              isLogin: false,
+              userName: ""
+            });
+          }
+        });
+    });
+  }
+
+  componentWillUnmount() {
+    this.willFocusSubscription.remove();
+  }
+
   onAbout = () => {
     showToast("关于");
   };
@@ -62,12 +97,48 @@ export default class My extends React.Component {
     showToast("我的收藏");
   };
 
+  onLogin = () => {
+    if (!this.state.isLogin) {
+      this.props.navigation.navigate("Login");
+    }
+  };
+
+  renderTopView = () => {
+    if (Platform.OS === "android") {
+      return (
+        <TouchableNativeFeedback
+          onPress={this.onLogin}
+          background={TouchableNativeFeedback.SelectableBackground()}>
+          {this.renderTopItem()}
+        </TouchableNativeFeedback>
+      );
+    }
+    return (
+      <TouchableHighlight
+        onPress={this.onLogin}
+        underlayColor={"rgba(223,223,223,0.5)"}>
+        {this.renderTopItem()}
+      </TouchableHighlight>
+    );
+  };
+
+  renderTopItem = () => {
+    return (
+      <View style={[styles.itemView, styles.topItemView]}>
+        <Text style={styles.itemText}>
+          {this.state.isLogin ? "玩安卓" : "玩安卓登录"}
+        </Text>
+        <Text style={[styles.itemText, styles.userNameText]}>
+          {this.state.userName}
+        </Text>
+      </View>
+    );
+  };
+
   render() {
     return (
       <View style={styles.container}>
-        <View style={[styles.itemView, { marginBottom: 20 }]}>
-          <Text style={styles.itemText}>玩安卓登录</Text>
-        </View>
+        {this.renderTopView()}
         <MyItemView title={"我的收藏"} onClick={this.onMyCollect}/>
         <MyItemView title={"点个Star"} onClick={this.onWebView}
                     url={"https://github.com/RaysLei/RN-Demo"}/>
@@ -89,6 +160,15 @@ const styles = StyleSheet.create({
     height: 60,
     paddingHorizontal: 15,
     justifyContent: "center"
+  },
+  topItemView: {
+    justifyContent: "space-between",
+    alignItems: "center",
+    flexDirection: "row",
+    marginBottom: 20
+  },
+  userNameText: {
+    fontWeight: "500"
   },
   myItemView: {
     height: 50,

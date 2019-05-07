@@ -3,16 +3,17 @@ import {
   Dimensions,
   FlatList,
   Image,
+  Platform,
   StyleSheet,
   Text,
-  View,
-  TouchableOpacity,
   TouchableHighlight,
   TouchableNativeFeedback,
-  Platform
+  TouchableOpacity,
+  View
 } from "react-native";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import Swiper from "react-native-swiper";
+import { get } from "./configs/HttpUtils";
 
 class ListItem extends React.PureComponent {
 
@@ -69,8 +70,8 @@ export default class WanAndroid extends React.PureComponent {
       bannerData: [],
       bannerIndex: 0,
       isRefreshing: false,
-      loadState: 0 // 是否加载数据的状态，0：没有更多数据可加载，1：可加载更多，2：正在加载中
     };
+    this.loadState = 0; // 是否加载数据的状态，0：没有更多数据可加载，1：可加载更多，2：正在加载中
   }
 
   componentDidMount() {
@@ -94,10 +95,10 @@ export default class WanAndroid extends React.PureComponent {
   _keyExtractor = (item, index) => item.link.concat(index);
 
   loadMoreData = () => {
-    if (this.state.loadState !== 1) {
+    if (this.loadState !== 1) {
       return;
     }
-    this.setState({ loadState: 2 });
+    this.loadState = 2;
     this.loadData(pageNo + 1, false);
   };
 
@@ -106,44 +107,30 @@ export default class WanAndroid extends React.PureComponent {
     this.setState({
       isRefreshing
     });
-    fetch(`https://www.wanandroid.com/article/list/${pageNo - 1}/json`, {
-      method: "GET",
-      headers: {
-        "Accept": "application/json",
-        "Content-Type": "application/json"
-      }
-    }).then((response) => {
-      if (response.ok) {
-        return response.json();
-      }
-    }).then((response) => {
-      // console.log(response);
-      if (response.errorCode === 0) {
+    get(`https://www.wanandroid.com/article/list/${pageNo - 1}/json`)
+      .then((response) => {
+        // console.log(response);
         const data = pageNo === 1
           ? response.data.datas
           : this.state.data.concat(response.data.datas);
         console.log(data.length);
-        const loadState = response.data.over ? 0 : 1;
+        this.loadState = response.data.over ? 0 : 1;
         this.setState({
           data,
-          loadState,
           isRefreshing: false
         });
-      }
-    });
+      }, reason => {
+        this.loadState = isRefreshing ? 0 : 1;
+        this.setState({
+          isRefreshing: false
+        });
+      });
   };
 
   getBanners = () => {
-    fetch("https://www.wanandroid.com/banner/json")
+    get("https://www.wanandroid.com/banner/json")
       .then(response => {
-        if (response.ok) {
-          return response.json();
-        }
-      })
-      .then(response => {
-        if (response.errorCode === 0) {
-          this.setState({ bannerData: response.data });
-        }
+        this.setState({ bannerData: response.data });
       });
   };
 

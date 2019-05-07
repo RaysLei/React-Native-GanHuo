@@ -799,6 +799,11 @@
     "@types/istanbul-lib-coverage" "^2.0.0"
     "@types/yargs" "^12.0.9"
 
+"@react-native-community/async-storage@^1.3.4":
+  version "1.3.4"
+  resolved "https://registry.npm.taobao.org/@react-native-community/async-storage/download/@react-native-community/async-storage-1.3.4.tgz#5a664484d485bcbab79648e1a0ce775b90843f29"
+  integrity sha1-WmZEhNSFvLq3lkjhoM53W5CEPyk=
+
 "@react-native-community/cli@^1.2.1":
   version "1.8.0"
   resolved "http://registry.npm.taobao.org/@react-native-community/cli/download/@react-native-community/cli-1.8.0.tgz#92792e7949c963b1affedb272b3c3af87d1c73f0"
@@ -1056,6 +1061,14 @@ aproba@^1.0.3:
   version "1.2.0"
   resolved "http://registry.npm.taobao.org/aproba/download/aproba-1.2.0.tgz#6802e6264efd18c790a1b0d517f0f2627bf2c94a"
   integrity sha1-aALmJk79GMeQobDVF/DyYnvyyUo=
+
+apsl-react-native-button@^3.1.1:
+  version "3.1.1"
+  resolved "https://registry.npm.taobao.org/apsl-react-native-button/download/apsl-react-native-button-3.1.1.tgz#313764d84cd9a429d14b329db6639b2c683266a7"
+  integrity sha1-MTdk2EzZpCnRSzKdtmObLGgyZqc=
+  dependencies:
+    lodash.isequal "^4.1.4"
+    prop-types "^15.5.10"
 
 are-we-there-yet@~1.1.2:
   version "1.1.5"
@@ -4060,6 +4073,11 @@ locate-path@^3.0.0:
     p-locate "^3.0.0"
     path-exists "^3.0.0"
 
+lodash.isequal@^4.1.4:
+  version "4.5.0"
+  resolved "https://registry.npm.taobao.org/lodash.isequal/download/lodash.isequal-4.5.0.tgz#415c4478f2bcc30120c22ce10ed3226f7d3e18e0"
+  integrity sha1-QVxEePK8wwEgwizhDtMib30+GOA=
+
 lodash.pad@^4.1.0:
   version "4.5.1"
   resolved "http://registry.npm.taobao.org/lodash.pad/download/lodash.pad-4.5.1.tgz#4330949a833a7c8da22cc20f6a26c4d59debba70"
@@ -5456,6 +5474,22 @@ react-native-gesture-handler@^1.1.0:
     invariant "^2.2.2"
     prop-types "^15.5.10"
 
+react-native-root-siblings@^3.0.0:
+  version "3.2.0"
+  resolved "https://registry.npm.taobao.org/react-native-root-siblings/download/react-native-root-siblings-3.2.0.tgz#f6a09f1b800181be647058f09e52442fafbd20af"
+  integrity sha1-9qCfG4ABgb5kcFjwnlJEL6+9IK8=
+  dependencies:
+    prop-types "^15.6.2"
+    static-container "^1.0.0"
+
+react-native-root-toast@^3.0.2:
+  version "3.0.2"
+  resolved "https://registry.npm.taobao.org/react-native-root-toast/download/react-native-root-toast-3.0.2.tgz#85c0c50d300c895a35ea98587b4ad4c9540297ee"
+  integrity sha1-hcDFDTAMiVo16phYe0rUyVQCl+4=
+  dependencies:
+    prop-types "^15.5.10"
+    react-native-root-siblings "^3.0.0"
+
 react-native-safe-area-view@^0.13.0:
   version "0.13.1"
   resolved "http://registry.npm.taobao.org/react-native-safe-area-view/download/react-native-safe-area-view-0.13.1.tgz#834bbb6d22f76a7ff07de56725ee5667ba1386b0"
@@ -6278,6 +6312,11 @@ stacktrace-parser@^0.1.3:
   integrity sha1-tnhFRbm/cLTxMlZx0CTHEmnEvCo=
   dependencies:
     type-fest "^0.3.0"
+
+static-container@^1.0.0:
+  version "1.3.0"
+  resolved "https://registry.npm.taobao.org/static-container/download/static-container-1.3.0.tgz#e4f7b4be4e42954e3d1955ab7b3974a78b7bad87"
+  integrity sha1-5Pe0vk5ClU49GVWrezl0p4t7rYc=
 
 static-extend@^0.1.1:
   version "0.1.2"
