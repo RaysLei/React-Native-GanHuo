@@ -8,7 +8,7 @@ import {
   View
 } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
-import { showToast } from "./configs/Constants";
+import { setUserInfo, showToast } from "./configs/Constants";
 import AsyncStorage from "@react-native-community/async-storage";
 
 class MyItemView extends React.Component {
@@ -52,6 +52,7 @@ export default class My extends React.Component {
       isLogin: false,
       userName: ""
     };
+    AsyncStorage.removeItem("userInfo");
   }
 
   componentWillMount() {
@@ -61,7 +62,7 @@ export default class My extends React.Component {
           console.log(value);
           if (value) {
             const userInfo = JSON.parse(value);
-            console.log(userInfo);
+            setUserInfo(userInfo);
             this.setState({
               isLogin: userInfo["isLogin"],
               userName: userInfo["isLogin"] ? userInfo["userName"] : ""
@@ -94,7 +95,11 @@ export default class My extends React.Component {
   };
 
   onMyCollect = () => {
-    showToast("我的收藏");
+    if (this.state.isLogin) {
+      this.props.navigation.navigate("MyCollect");
+    } else {
+      this.props.navigation.navigate("Login");
+    }
   };
 
   onLogin = () => {

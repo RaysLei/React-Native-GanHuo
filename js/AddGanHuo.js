@@ -97,7 +97,7 @@ export default class AddGanHuo extends React.Component {
           // value={this.state.who}
         />
         <Picker
-          selectedValue={"Android"}
+          selectedValue={this.state.type}
           style={{ marginTop: 15 }}
           onValueChange={(itemValue) => this.setState({ type: itemValue })}>
           <Picker.Item label="APP" value="App"/>

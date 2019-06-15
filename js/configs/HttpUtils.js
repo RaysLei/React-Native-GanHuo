@@ -11,8 +11,14 @@ import { showToast } from "./Constants";
  * -20: 请求超时等一些IO异常
  * -30: gank.io固定错误状态码
  */
-export const httpRequest = (url, reqInit = { method: "GET" }) => {
-  const promise = fetch(url, reqInit)
+export const httpRequest = (url, reqInit = {}) => {
+  const promise = fetch(
+    url,
+    {
+      method: "GET",
+      credentials: "include",
+      ...reqInit
+    })
     .then(response => {
       if (response.ok) {
         return response.json();

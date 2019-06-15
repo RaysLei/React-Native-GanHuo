@@ -7,6 +7,7 @@ import ImageView from "./ImageView";
 import AddGanHuo from "./AddGanHuo";
 import Login from "./Login";
 import Register from "./Register";
+import MyCollect from "./MyCollect";
 
 class App extends Component {
   componentDidMount() {
@@ -42,6 +43,7 @@ const AppNavigator = createStackNavigator(
     AddGanHuo: AddGanHuo,
     Login: Login,
     Register: Register,
+    MyCollect: MyCollect,
   },
   {
     initialRouteName: "App",

@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import AsyncStorage from "@react-native-community/async-storage";
-import { isBlank, showToast } from "./configs/Constants";
+import { isBlank, showToast, setUserInfo } from "./configs/Constants";
 import { post } from "./configs/HttpUtils";
 import Button from "apsl-react-native-button";
 
@@ -31,7 +31,6 @@ export default class Login extends React.Component {
   }
 
   componentDidMount() {
-    console.log("login componentDidMount");
     this.props.navigation.setParams({ onRegister: this._onRegister });
   }
 
@@ -68,6 +67,7 @@ export default class Login extends React.Component {
     AsyncStorage.setItem("userInfo", JSON.stringify(userInfo))
       .then(value => {
         console.log(value);
+        setUserInfo(userInfo);
         this.props.navigation.goBack();
         showToast("登录成功");
       })

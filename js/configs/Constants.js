@@ -19,3 +19,22 @@ export const isBlank = (content) => {
 export const isHttpUrl = (url) => {
   return typeof url === 'string' && new RegExp("^http(s?)://.+", "i").test(url);
 };
+
+const defaultUserInfo = {
+  isLogin: false,
+  userName: ""
+};
+
+let userInfo = {...defaultUserInfo};
+
+export const setUserInfo = (value) => {
+  if (value) {
+    userInfo = {...value};
+  } else {
+    userInfo = {...defaultUserInfo}
+  }
+};
+
+export const getUserInfo = () => {
+  return userInfo;
+};
